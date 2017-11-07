@@ -3,14 +3,37 @@ extends layout
 block content
 
     //- Container
-    .wrapper
+    div(class="wrapper")
 
         //- Search Section
-        form
-            input(id="search" class="searchbar transparent" type="text" placeholder="Country or City")
-            input(id="button" class="button transparent" type="submit" value="GO")
+        search
+            form
+                input(class="searchbar transparent" id="search" type="text" placeholder="Country or City")
+                input(class="button transparent" id="button" type="submit" value="GO")
         
         //- Forecast container
-        .panel
+        div(class="panel")
+        
             //- City searched for
             h2(class="city" id="city")
+
+            //- Forecast info
+            div(class="weather" id="weather")
+
+                div(class="group secondary")
+                    h3(id="dt")
+                    h3(id="description")
+                
+                div(class="group secondary")
+                    h3(id="wind")
+                    h3(id="humidity")
+                
+                div(class="temperature" id="temperature")
+                    h1(class="temp" id="temp")
+                        i(id="condition")
+                        span(id="num")
+                        a(class="fahrenheit active" id="fahrenheit" href="#") &deg;F
+                        span(class="divider secondary") |
+                        a(class="celsius" id="celsius" href="#") &deg;C
+                
+                div(class="forecast" id="forecast")
