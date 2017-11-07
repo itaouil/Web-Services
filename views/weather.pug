@@ -1,0 +1,16 @@
+extends layout
+
+block content
+
+    //- Container
+    .wrapper
+
+        //- Search Section
+        form
+            input(id="search" class="searchbar transparent" type="text" placeholder="Country or City")
+            input(id="button" class="button transparent" type="submit" value="GO")
+        
+        //- Forecast container
+        .panel
+            //- City searched for
+            h2(class="city" id="city")
