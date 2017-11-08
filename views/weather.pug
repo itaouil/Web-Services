@@ -2,38 +2,17 @@ extends layout
 
 block content
 
-    //- Container
-    div(class="wrapper")
+    //- Search form
+    form(action="get")
 
-        //- Search Section
-        search
-            form
-                input(class="searchbar transparent" id="search" type="text" placeholder="Country or City")
-                input(class="button transparent" id="button" type="submit" value="GO")
+        //- Text input
+        input(type="text" class="search" placeholder="City or Country")
         
-        //- Forecast container
-        div(class="panel")
-        
-            //- City searched for
-            h2(class="city" id="city")
-
-            //- Forecast info
-            div(class="weather" id="weather")
-
-                div(class="group secondary")
-                    h3(id="dt")
-                    h3(id="description")
-                
-                div(class="group secondary")
-                    h3(id="wind")
-                    h3(id="humidity")
-                
-                div(class="temperature" id="temperature")
-                    h1(class="temp" id="temp")
-                        i(id="condition")
-                        span(id="num")
-                        a(class="fahrenheit active" id="fahrenheit" href="#") &deg;F
-                        span(class="divider secondary") |
-                        a(class="celsius" id="celsius" href="#") &deg;C
-                
-                div(class="forecast" id="forecast")
+        //- Suggestions for autocompletition
+        ul(class="suggestions")
+            //- li Filter for a city
+            //- li or a state
+    
+    //- JavaScript files (JQuery + Client Routines)
+    script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js")
+    script(src="/javascripts/main.js")
