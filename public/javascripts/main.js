@@ -1,15 +1,16 @@
 // Run JS when page loaded
 $(function() {
 
-    // Variables
+    // Storing cities
     const cities = [];
 
+    // DOM elememnts used for data injection
     const searchInput = document.querySelector('.search');
     const suggestions = document.querySelector('.suggestions');
 
-    // Endpoint referencing our cities and states data
-    const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
-
+    // Endpoint used to retrieve list of cities (world)
+    const endpoint = 'http://localhost:3000/api/cities';
+    
     // Fetch data
     // and use the spread operator
     // to deconstruct the data fetched
@@ -17,36 +18,32 @@ $(function() {
         .then(response => response.json())
         .then(data => cities.push(...data));
 
-    // Number with commas regexp
-    function numberWithCommas(x) {
-        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    }
-
-    // Find matching data
-    function findMatches(wordToMatch, cities) {
-        const regex = new RegExp(wordToMatch, 'gi');
-        return cities.filter(place => {
-            return place.city.match(regex) || place.state.match(regex)
+    // Find matching cities
+    function findMatches(cityToMatch, cities) {
+        const regex = new RegExp(cityToMatch, 'gi');
+        return cities.filter(city => {
+            return city.city.match(regex)
         });
     }
 
     // Render data
     function renderData() {
-        const matches = findMatches(this.value, cities);
+
+        const matches = findMatches(this.value, cities).slice(1,10);
         const html = matches.map(match => {
-        const regex = new RegExp(this.value, 'gi');
-        const cityName = match.city.replace(regex, `<span class='hl'>${this.value}</span>`);
-        const stateName = match.state.replace(regex, `<span class='hl'>${this.value}</span>`);
-        const population = numberWithCommas(match.population);
-        return `
-            <li>
-            <span>${cityName}, ${stateName}</span>
-            <span>${population}</span>
-            </li>
-        `;
+            const regex = new RegExp(this.value, 'gi');
+            const cityName = match.city.replace(regex, `<span class='hl'>${this.value}</span>`);
+            // const stateName = match.state.recity(regex, `<span class='hl'>${this.value}</span>`);
+            // const population = numberWithCommas(match.population);
+            return `
+                <li>
+                    <span>${cityName}</span>
+                </li>
+            `;
         }).join('');
 
         suggestions.innerHTML = html;
+
     }
 
     // Input event listening
