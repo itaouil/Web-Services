@@ -1,62 +1,127 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
 html {
+    height: 100%;
     box-sizing: border-box;
-    background-image: url(/images/leeds.jpg);
-    background-size: cover;
-    background-repeat: no-repeat;
-    font-family: 'Open Sand', sans-serif;
-    font-weight: 400;
-    font-size: 20px;
-  }
-  
-form {
-    max-width: 300px;
-    margin: 50px auto;
-    float: left;
-    margin-left: 50px;
-    margin-top: -5px;
+    position: relative;
 }
-  
-input.search {
-    width: 100%;
-    padding: 15px;
+
+body {
     text-align: center;
-    font-size: 40px;
-    border: 10px solid #F7F7F7;
-    border-radius: 5px;
-    z-index: 2;
+    font-family: Roboto, sans-serif;
     position: relative;
-    left: -12%;
-    top: 10px;
+    min-height: 100%;
+    padding-bottom: 250px;
+    background-color: #feffff;
+    color: #feffff;
 }
 
-.suggestions {
-    margin: 0px;
-    padding: 0px;
-    position: relative;
-    left: 5%;
+header {
+    color: #feffff;
+    background-color: #444c5c;
+    padding: auto;
 }
 
-.suggestions li {
-    list-style: none;
-    background-color: white;
-    text-transform: capitalize;
-    display: flex;
-    justify-content: space-between;
-    border-bottom: 1px solid #D8D8D8;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.14);
-    padding: 20px;
+h1 {
+ margin:0;
 }
 
-.suggestions li:nth-child(even) {
-    transform: perspective(100px) rotateX(3deg) translateY(2px) scale(1.001);
-    background: linear-gradient(to bottom, #ffffff 0%, #EFEFEF 100%);
+#top {
+    font-size: 12px;
+    background-color: #2b3343;
 }
 
-.suggestions li:nth-child(odd) {
-    transform: perspective(100px) rotateX(-3deg) translateY(3px);
-    background: linear-gradient(to top, #ffffff 0%, #EFEFEF 100%);
+#featuresSec {
+ font-size: 12px;
+    color:#444c5c;
 }
 
-.hl {
-    background: #ffc600;
+#userInput {
+    border: none;
+    border-bottom: 1px solid #444c5c;
+}
+
+#goButton {
+    width: 100px;
+    border: none;
+    background-color: #444c5c;
+    color: #feffff;
+    transition-duration: 0.3s;
+}
+
+#goButton:hover {
+    background-color: #78a5a3;
+}
+
+#weatherDiv,
+#forecastDiv {
+    background-color: #78a5a3;
+}
+
+#cf {
+    color: #feffff;
+    text-decoration: none;
+}
+
+#cf:hover{
+    transition-duration: 0.3s;
+    color: #444c5c;
+    text-decoration: none;
+}
+
+.selected {
+    color: #feffff;
+    font-weight: bold;
+    transition-duration: 0.3s;
+}
+
+.unselected {
+    font-weight: normal;
+    font-size: 20px;
+    color: #444c5c;
+    transition-duration: 0.3s;
+}
+
+#location {
+    text-align: center;
+}
+
+.uppercase {
+    text-transform: uppercase;
+}
+
+#icon {
+    text-align: right;
+}
+
+#primaryWeatherDiv {
+    text-align: right;
+}
+
+#secondaryWeatherDiv {
+    text-align: left;
+}
+
+p {
+    padding: 0;
+    margin: 0;
+}
+
+.forecast {
+    margin: auto;
+}
+
+footer {
+    background-color: #444c5c;
+    color: #feffff;
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+}
+
+#credits {
+    font-size:12px;
 }

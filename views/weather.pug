@@ -2,17 +2,55 @@ extends layout
 
 block content
 
-    //- Search form
-    form(action="get")
+    header
+        div
+            h1 Weather 
 
-        //- Text input
-        input(type="text" class="search" placeholder="Enter City")
+    main
+
+        br
+        br
         
-        //- Suggestions for autocompletition
-        ul(class="suggestions")
-            //- li Filter for a city
-            //- li or a state
-    
+        section#weatherSec
+            div#weatherDiv.container
+                br
+                h1#location.uppercase
+                div.row
+                    div#primaryWeatherDiv.col-6
+                        span#icon
+                        h2#mainWeather.uppercase
+                        h2
+                            span#temp.uppercase
+                            a#cf(href="#" title="Switch between Celsius and Fareheit")
+                                span#c.selected C 
+                                |
+                                span#f.unselected F
+
+                    br
+
+                    div#secondaryWeatherDiv.col-6
+                        p
+                            span#day
+                            span#time
+                            br
+                            span#descWeather.uppercase
+                            br
+                            br
+                            span#wind
+                            br
+                            span#humidity
+        
+        br
+        br
+
+        section#inputSec
+            div#inputDiv.container
+                br
+                input#userInput(type="text" placeholder="Enter city")
+                button#goButton GO !
+                br
+                br
+
     //- JavaScript files (JQuery + Client Routines)
     script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js")
     script(src="/javascripts/main.js")
