@@ -1,9 +1,10 @@
 // Variables 
 const geolocation   = "http://localhost:3000/api/geolocation";
 const weather       = "http://localhost:3000/api/weather";
-const appID         = "&APPID=624a5719fc88bdf6359cecd6a3e7de74";
+const photo         = "http://localhost:3000/api/photo";
+const autocomplete  = "http://localhost:3000/api/suggestions";
+const cities        = [];
 var units           = "&units=metric";
-var wTemp;
 var fTemp           = [];
 var unit            = "celsius";
 
@@ -17,14 +18,20 @@ $(document).ready(function() {
     fetch(geolocation)
       .then(res => res.json())
       .then(location => {
-        // console.log("Received: ", location.city);
         // Get weather for location
-        getWeather(location.city);
-        console.log(location.city);
-  
+        const city = location.city;
+        getWeather(city);
+        getPhoto(city);
       });
-  
-  });
+    
+    // Fetch list from custom API
+    // and cache it for future use
+    fetch(autocomplete)
+      .then(res => res.json())
+      .then(cities => cities.push(...data));
+    
+    console.log(cities);
+});
 
 // Get weather by calling own
 // web service (composition)
@@ -41,61 +48,66 @@ function getWeather(city) {
 
 }
 
+// Get weather by calling own
+// web service (composition)
+function getPhoto(city) {
+
+    // Parse respone to json
+    // and display image on
+    // the background
+    fetch(`${photo}?tag=${city}`)
+      .then(resp => resp.json())
+      .then(data => {
+
+        // Get json of images
+        const imgs = data.photos.photo;
+
+        // Get random index
+        const index = Math.floor(Math.random() * imgs.length - 1)
+        console.log(index);
+
+        // Show random image
+        showImage(`https://farm${imgs[index].farm}.staticflickr.com/${imgs[index].server}/${imgs[index].id}_${imgs[index].secret}.jpg`);
+
+      });
+  
+  }
+
 // Displays data in the
 // DOM content (web page)
-function render(wData) {
-  //primary weather information
-  $("#location").text(wData.name + ", " + wData.sys.country);
-  var imgsrc = "https://openweathermap.org/img/w/" + wData.weather[0].icon + ".png";
-  $("#icon").html('<img src="' + imgsrc + '" class=".wIcon" alt="w-icon">');
-  wTemp = Math.round(wData.main.temp);
-  $("#temp").text(Math.round(wTemp));
-  $("#mainWeather").text(wData.weather[0].main);
-  $("#tempMax").text(wData.main.temp_max);
-  $("#tempMin").text(wData.main.temp_min);
-  //secondary weather information
+function render(data) {
+
+  // Location requested
+  $("#location").text(data.name + ", " + data.sys.country);
+
+  // Icont for the weather
+  $("#icon").html('<img src="' + "https://openweathermap.org/img/w/" + data.weather[0].icon + ".png" + '" class=".wIcon" alt="w-icon">');
+
+  // Temperature
+  $("#temp").text(Math.round(data.main.temp));
+
+  // Cloudy/Sunny/etc
+  $("#mainWeather").text(data.weather[0].main);
+
+  // Maximas and Minimas for the temperature
+  $("#tempMax").text(data.main.temp_max);
+  $("#tempMin").text(data.main.temp_min);
+
+  // Display date info
   $("#day").text(dayOfWeek());
   $("#time").text(currentTime());
-  $("#descWeather").text(wData.weather[0].description);
-  $("#wind").text("Wind: " + wData.wind.speed);
-  $("#humidity").text("Humidity: " + wData.main.humidity + "%");
+  $("#descWeather").text(data.weather[0].description);
+  $("#wind").text("Wind: " + data.wind.speed);
+  $("#humidity").text("Humidity: " + data.main.humidity + "%");
 }
 
-function displayForecast(fData) {
-  var i = 8; //Used to iterate through JSON data
-
-  $(".fDay").each(function() {
-    $(this).text(fData.list[i].dt_txt);
-    i += 8;
-  });
-  i = 8;
-  $(".fIcon").each(function() {
-    var imgsrc =
-      "https://openweathermap.org/img/w/" +
-      fData.list[i].weather[0].icon +
-      ".png";
-    //console.log(imgsrc);
-    $(this).html('<img src="' + imgsrc + '" alt="f-icon">');
-    i += 8;
-  });
-  i = 8;
-  $(".fDesc").each(function() {
-    $(this).text(fData.list[i].weather[0].main);
-    i += 8;
-  });
-  i = 8;
-  $(".fTemp").each(function() {
-    fTemp.push(Math.round(fData.list[i].main.temp));
-    //console.log(fTemp);
-    $(this).text(Math.round(fData.list[i].main.temp) + " C");
-    i += 8;
-  });
-  i = 8;
+// Displays image on the DOM
+function showImage(imgURL) {
+  $('body').css('background-image', `url(${imgURL})`);
 }
 
 function dayOfWeek() {
   var dt = new Date();
-  //console.log(dt);
   var today = dt.getDay();
   var days = [
     "Sunday",
@@ -132,45 +144,23 @@ function currentTime() {
   return time;
 }
 
-$("#cf").click(function(e) {
-  e.preventDefault();
-  if (unit == "celsius") {
-    unit = "farenheit";
-    wTemp = wTemp * 1.8 + 32;
-    $(".fTemp").each(function(index) {
-      fTemp[index] = fTemp[index] * 1.8 + 32;
-      $(this).text(Math.round(fTemp[index]) + " F");
-    });
-    $("#f")
-      .addClass("selected")
-      .removeClass("unselected");
-    $("#c")
-      .removeClass("selected")
-      .addClass("unselected");
-    $("#temp").text(Math.round(wTemp));
-  } else {
-    unit = "celsius";
-    wTemp = (wTemp - 32) / 1.8;
-    $(".fTemp").each(function(index) {
-      fTemp[index] = (fTemp[index] - 32) / 1.8;
-      $(this).text(Math.round(fTemp[index]) + " C");
-    });
-    $("#c")
-      .addClass("selected")
-      .removeClass("unselected");
-    $("#f")
-      .removeClass("selected")
-      .addClass("unselected");
-    $("#temp").text(Math.round(wTemp));
-  }
-});
-
+// Button click event which
+// fires weather and photo
+// data fetching
 $("#goButton").click(function() {
   if ($("#userInput").val() === "") {
     alert("Please enter a location.");
   } else {
-    userRegion = $("#userInput").val();
-    getWeather(userRegion);
-    getForecast(userRegion);
+    const input = $("#userInput").val()
+    getWeather(input);
+    getPhoto(input);
   }
 });
+
+// Display suggestions
+function suggestions() {
+  console.log("Suggestions");
+}
+
+// Input event listener
+$("#userInput").on('keyup', suggestions);

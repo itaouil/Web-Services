@@ -2,10 +2,6 @@ extends layout
 
 block content
 
-    header
-        div
-            h1 Weather 
-
     main
 
         br
@@ -21,16 +17,13 @@ block content
                         h2#mainWeather.uppercase
                         h2
                             span#temp.uppercase
-                            a#cf(href="#" title="Switch between Celsius and Fareheit")
-                                span#c.selected C 
-                                |
-                                span#f.unselected F
+                            span#c.selected &deg;C 
 
                     br
 
                     div#secondaryWeatherDiv.col-6
                         p
-                            span#day
+                            span#day.divider
                             span#time
                             br
                             span#descWeather.uppercase

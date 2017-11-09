@@ -12,7 +12,7 @@ var https = require('https');
 router.get('/geolocation', (req, res, next) => {
 
     // Hit json file on the web and send it
-    // to the client requesting it
+    // to the client (that requested it)
     https.get('https://ipinfo.io/json', (resp) => {
 
       let data = '';
@@ -29,12 +29,40 @@ router.get('/geolocation', (req, res, next) => {
 
       // Catch error
       resp.on('error', (err) => {
-        res.json({});
+        res.json('{}');
         console.log("Error: " + err.message);
       });
 
     });
   
+});
+
+// Autocomplete
+router.get('/suggestions', (req, res, next) => {
+  
+      // Get world capitals
+      https.get(`http://country.io/capital.json`, (resp) => {
+  
+        let data = '';
+  
+        // Store chunk of data received
+        resp.on("data", (chunk) => {
+          data += chunk;
+        });
+  
+        // Parse response and send back
+        resp.on('end', () => {
+          res.json(JSON.parse(data.trim()));
+        });
+  
+        // Catch error
+        resp.on('error', (err) => {
+          res.json('{}');
+          console.log("Error: " + err.message);
+        });
+  
+      });
+    
 });
 
 // Get weather
@@ -64,7 +92,7 @@ router.get('/weather', (req, res, next) => {
   
         // Catch error
         resp.on('error', (err) => {
-          res.json({});
+          res.json('{}');
           console.log("Error: " + err.message);
         });
   
@@ -74,17 +102,13 @@ router.get('/weather', (req, res, next) => {
 
 // Get photo
 router.get('/photo', (req, res, next) => {
-  
+
         // API info required
         const url_first   = 'https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=4ccc692bea7335112f0e94ce94676836';
-        const ulr_second  = '&format=json&nojsoncallback=1&auth_token=72157666113847389-8e8886ebc2403c3b&api_sig=a5b773186f6fc2d80f212a10c7a105e4';
+        const ulr_second  = '&format=json&nojsoncallback=1';
 
-        console.log("Latitude: ", req.query.lat);
-        console.log("Latitude: ", req.query.lon);
-
-        // Make request to openweather with
-        // requested city
-        https.get(`${url_first}&lat=${req.query.lat}&lon=${req.query.lon}${ulr_second}`, (resp) => {
+        // Make request to openweather for city input
+        https.get(`${url_first}&tags=${req.query.tag}${ulr_second}`, (resp) => {
     
           let data = '';
     
@@ -95,17 +119,18 @@ router.get('/photo', (req, res, next) => {
     
           // Parse response and send back
           resp.on('end', () => {
+            // console.log(data);
             res.json(JSON.parse(data.trim()));
           });
     
           // Catch error
           resp.on('error', (err) => {
-            res.json({});
+            res.json('{}');
             console.log("Error: " + err.message);
           });
     
         });
       
-  });
+});
 
 module.exports = router;
