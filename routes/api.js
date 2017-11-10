@@ -74,8 +74,6 @@ router.get('/weather', (req, res, next) => {
     const url = 'https://api.openweathermap.org/data/2.5/weather?q=';
     const key = '&appid=624a5719fc88bdf6359cecd6a3e7de74';
 
-    console.log(req.query.city);
-
     // Make request to openweather with
     // requested city
     https.get(`${url}${req.query.city}${key}`, (resp) => {

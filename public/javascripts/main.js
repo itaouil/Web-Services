@@ -101,6 +101,16 @@ function render(data) {
 // Display suggestions
 function displaySuggestions(suggestions) {
 
+    const html = suggestions.slice(0,5).map(suggestion => {
+        return `
+            <li>
+                <span>${suggestion}</span>
+            </li>
+        `;
+    }).join('');
+
+    document.querySelector('.suggestions').innerHTML = html;
+
 }
 
 // Displays image on the DOM
@@ -164,12 +174,18 @@ function autocomplete() {
 
     let suggestions = [];
 
-    // Find input matches
-    const regex = new RegExp(this.value, 'gi');
-    for (var key in cities) {
-        if (cities.hasOwnProperty(key) && cities[key].match(regex)) {
-            suggestions.push(cities[key]);
+    if (this.value != '') {
+        // Find input matches
+        const regex = new RegExp(this.value, 'gi');
+        for (var key in cities) {
+            if (cities.hasOwnProperty(key) && cities[key].match(regex)) {
+                suggestions.push(cities[key]);
+            }
         }
+    }
+
+    else {
+        document.querySelector('.suggestions').innerHTML = "<li>Some suggestions</li>";
     }
 
     // Render suggestion in the DOM

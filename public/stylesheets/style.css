@@ -132,3 +132,7 @@ footer {
 .divider {
     margin-right: 5px;
 }
+
+.suggestions {
+    list-style-type: none;
+}
