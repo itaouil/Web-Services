@@ -4,8 +4,6 @@ const weather       = "http://localhost:3000/api/weather";
 const photo         = "http://localhost:3000/api/photo";
 const suggestions   = "http://localhost:3000/api/suggestions";
 var cities;
-var units           = "&units=metric";
-var fTemp           = [];
 
 // Display local weather
 $(document).ready(function() {
@@ -88,7 +86,6 @@ function render(data) {
 
     // Maximas and Minimas for the temperature
     $("#tempMax").text(data.main.temp_max);
-    $("#tempMin").text(data.main.temp_min);
 
     // Display date info
     $("#day").text(dayOfWeek());

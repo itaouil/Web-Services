@@ -72,7 +72,7 @@ router.get('/weather', (req, res, next) => {
 
     // API info required
     const url = 'https://api.openweathermap.org/data/2.5/weather?q=';
-    const key = '&appid=624a5719fc88bdf6359cecd6a3e7de74';
+    const key = '&appid=624a5719fc88bdf6359cecd6a3e7de74&units=metric';
 
     // Make request to openweather with
     // requested city
